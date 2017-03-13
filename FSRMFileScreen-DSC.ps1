@@ -5,11 +5,11 @@ Configuration TestFileGroupAndTemplate
 
     Node $AllNodes.NodeName
     {
-        <#
+        
         $Filters = @((Invoke-WebRequest -Uri "https://fsrm.experiant.ca/api/v1/combined" -UseBasicParsing).content `
             | convertfrom-json `
             | ForEach-Object {$_.filters}) 
-        #>
+        
         FSRMFileGroup FSRMFileGroupRansomwareFiles
         {
             Name = 'Test - Ransomware Files'
@@ -17,6 +17,14 @@ Configuration TestFileGroupAndTemplate
             Ensure = 'Present'
             IncludePattern = $Node.Filters
         } 
+
+        FSRMFileGroup FSRMFileGroupExceptions
+        {
+            Name = 'Hennepin Exceptions'
+            Description = 'Files and extensions that we agree should not trigger an alert'
+            Ensure = 'Present'
+            IncludePattern = '*.key'
+        }
 
         FSRMFileScreenTemplate FileScreenRansomware
         {
@@ -49,6 +57,16 @@ Configuration TestFileGroupAndTemplate
                 Template = "Test - Block Ransomware Files"
                 MatchesTemplate = $true
                 DependsOn = "[FSRMFileScreenTemplate]FileScreenRansomware","[FSRMFileScreenTemplateAction]FileScreenRansomwareEvent"
+            }
+
+            # add an exception item here
+            FSRMFileScreenException FileScreenRansomwareExceptions
+            {
+                Path = $path
+                Description = "Exceptions to the downloaded File Group"
+                Ensure = 'Present'
+                IncludeGroup = 'Hennepin Exceptions'
+                DependsOn = '[FSRMFileGroup]FSRMFileGroupExceptions'
             }
         }
         
