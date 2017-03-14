@@ -23,7 +23,7 @@ Configuration TestFileGroupAndTemplate
             Name = 'Hennepin Exceptions'
             Description = 'Files and extensions that we agree should not trigger an alert'
             Ensure = 'Present'
-            IncludePattern = '*.key'
+            IncludePattern = '*.key','readme.txt'
         }
 
         FSRMFileScreenTemplate FileScreenRansomware
