@@ -12,10 +12,10 @@ Configuration TestFileGroupAndTemplate
         
         FSRMFileGroup FSRMFileGroupRansomwareFiles
         {
-            Name = 'Test - Ransomware Files'
+            Name = 'Ransomware Files'
             Description = 'files and extenstions associated with Ransomware attacks'
             Ensure = 'Present'
-            IncludePattern = $Node.Filters
+            IncludePattern = $Filters
         } 
 
         FSRMFileGroup FSRMFileGroupExceptions
@@ -28,7 +28,7 @@ Configuration TestFileGroupAndTemplate
 
         FSRMFileScreenTemplate FileScreenRansomware
         {
-            Name = "Test - Block Ransomware Files"
+            Name = "Block Ransomware Files"
             Description = "File Screen to block Ransomware files and extenstions"
             Ensure = 'Present'
             Active = $true
@@ -38,7 +38,7 @@ Configuration TestFileGroupAndTemplate
 
         FSRMFileScreenTemplateAction FileScreenRansomwareEvent
         {
-            Name = "Test - Block Ransomware Files"
+            Name = "Block Ransomware Files"
             Ensure = 'Present'
             Type = 'Event'
             Body = 'The system detected that user [Source Io Owner] attempted to save [Source File Path] on [File Screen Path] on server [Server]. This file matches the [Violated File Group] file group which is not permitted on the system.'
@@ -54,7 +54,7 @@ Configuration TestFileGroupAndTemplate
                 Path = $path
                 Description = 'File Screen blocking Ransomware files'
                 Ensure = 'Present'
-                Template = "Test - Block Ransomware Files"
+                Template = "Block Ransomware Files"
                 MatchesTemplate = $true
                 DependsOn = "[FSRMFileScreenTemplate]FileScreenRansomware","[FSRMFileScreenTemplateAction]FileScreenRansomwareEvent"
             }
@@ -119,14 +119,11 @@ $myData =
 }
 
 
-
-
-
 $DSCPath = "\\hcgg\lobroot\itxx\home\jole001\WindowsPowerShell\DSC"
 
-TestFileGroupAndTemplate -OutputPath "$DSCPath\FSRM" -ConfigurationData "$DSCPath\FSRMFileScreen-dsc.psd" -verbose 
+TestFileGroupAndTemplate -OutputPath "$DSCPath\FSRM" -ConfigurationData "$DSCPath\FSRM\FSRMFileScreen-dsc.psd1" -verbose
 
-$computername = 'hhfsrpw001'
-Start-DscConfiguration -Force -Wait -Path "$DSCPath\FSRM"  -Verbose
+$computername = 'itinfdw002'
+Start-DscConfiguration -Force -Wait -Path "$DSCPath\FSRM"  -Verbose -ComputerName itinfdw002
 
 test-DscConfiguration -Force -Wait -Path "$DSCPath\FSRM"  -Verbose

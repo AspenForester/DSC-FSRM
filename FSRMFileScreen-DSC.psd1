@@ -6,13 +6,15 @@
             NodeName = "*"
             # Anything all the nodes would have in common
             Paths = @("T:\")
-            Filters = $Webdata
         },
 
         @{
             NodeName = "hhfsrpw001"
             #Paths = @("T:\hhxx\Home","T:\hhxx\Team")
         },
+        @{
+            NodeName = 'itinfdw002'
+        }
         @{
             NodeName = 'bffsrpw001'
             #Paths = @("\\bffsrpw001\t$\APEX\Team","\\bffsrpw001\t$\APEX\ViewDirect","\\bffsrpw001\t$\BFAS\Home","\\bffsrpw001\t$\BFAS\Team","\\bffsrpw001\t$\BFAT\Team","\\bffsrpw001\t$\PTCS\Team")
