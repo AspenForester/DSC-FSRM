@@ -3,13 +3,12 @@ Configuration TestFileGroupAndTemplate
     
     Import-DscResource -ModuleName FSRMDsc
 
-    Node $AllNodes.NodeName
-    {
-        
-        $Filters = @((Invoke-WebRequest -Uri "https://fsrm.experiant.ca/api/v1/combined" -UseBasicParsing).content `
+    $Filters = @((Invoke-WebRequest -Uri "https://fsrm.experiant.ca/api/v1/combined" -UseBasicParsing).content `
             | convertfrom-json `
             | ForEach-Object {$_.filters}) 
-        
+
+    Node $AllNodes.NodeName
+    {
         FSRMFileGroup FSRMFileGroupRansomwareFiles
         {
             Name = 'Experiant Ransomware Files'
@@ -73,52 +72,6 @@ Configuration TestFileGroupAndTemplate
         
     }
 }
-
-$Webdata = $Filters = @((Invoke-WebRequest -Uri "https://fsrm.experiant.ca/api/v1/combined" -UseBasicParsing).content `
-            | convertfrom-json `
-            | ForEach-Object {$_.filters}) 
-
-$myData =
-@{
-    AllNodes =
-    @(
-        #All Nodes 
-        @{
-            NodeName = "*"
-            # Anything all the nodes would have in common
-            Paths = @("T:\")
-            Filters = $Webdata
-        },
-
-        @{
-            NodeName = "hhfsrpw001"
-            #Paths = @("T:\hhxx\Home","T:\hhxx\Team")
-        },
-        @{
-            NodeName = 'bffsrpw001'
-            #Paths = @("\\bffsrpw001\t$\APEX\Team","\\bffsrpw001\t$\APEX\ViewDirect","\\bffsrpw001\t$\BFAS\Home","\\bffsrpw001\t$\BFAS\Team","\\bffsrpw001\t$\BFAT\Team","\\bffsrpw001\t$\PTCS\Team")
-        },
-        @{
-            NodeName = 'ccfsrpw001'
-        },
-        @{
-            NodeName = 'esfsrpw001'
-        },
-        @{
-            NodeName = 'esinfpw001'
-        },
-        @{
-            NodeName = 'hsfsrpw001'
-        },
-        @{
-            NodeName = 'itfsrpw001'
-        },
-        @{
-            NodeName = 'itinfpw022'
-        }
-    );
-}
-
 
 $DSCPath = "\\hcgg.fr.co.hennepin.mn.us\lobroot\itxx\home\jole001\WindowsPowerShell\DSC"
 
