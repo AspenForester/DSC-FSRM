@@ -12,7 +12,7 @@ Configuration TestFileGroupAndTemplate
         
         FSRMFileGroup FSRMFileGroupRansomwareFiles
         {
-            Name = 'Ransomware Files'
+            Name = 'Experiant Ransomware Files'
             Description = 'files and extenstions associated with Ransomware attacks'
             Ensure = 'Present'
             IncludePattern = $Filters
@@ -32,7 +32,7 @@ Configuration TestFileGroupAndTemplate
             Description = "File Screen to block Ransomware files and extenstions"
             Ensure = 'Present'
             Active = $true
-            IncludeGroup = 'Test - Ransomware Files'
+            IncludeGroup = 'Experiant Ransomware Files'
             DependsOn = "[FSRMFileGroup]FSRMFileGroupRansomwareFiles"
         }
 
@@ -60,7 +60,8 @@ Configuration TestFileGroupAndTemplate
             }
 
             # add an exception item here
-            FSRMFileScreenException FileScreenRansomwareExceptions
+            $Name = "FileScreenExceptions_$($path.split('\')[1,2] -join(''))"
+            FSRMFileScreenException $Name
             {
                 Path = $path
                 Description = "Exceptions to the downloaded File Group"
@@ -119,11 +120,11 @@ $myData =
 }
 
 
-$DSCPath = "\\hcgg\lobroot\itxx\home\jole001\WindowsPowerShell\DSC"
+$DSCPath = "\\hcgg.fr.co.hennepin.mn.us\lobroot\itxx\home\jole001\WindowsPowerShell\DSC"
 
-TestFileGroupAndTemplate -OutputPath "$DSCPath\FSRM" -ConfigurationData "$DSCPath\FSRM\FSRMFileScreen-dsc.psd1" -verbose
+TestFileGroupAndTemplate -OutputPath "$DSCPath\FSRM" -ConfigurationData "$DSCPath\FSRM\itfsrpw001.psd1" -verbose
 
 $computername = 'itinfdw002'
-Start-DscConfiguration -Force -Wait -Path "$DSCPath\FSRM"  -Verbose -ComputerName itinfdw002
+Start-DscConfiguration -Force -Wait -Path "$DSCPath\FSRM"  -Verbose -ComputerName itfsrpw001
 
 test-DscConfiguration -Force -Wait -Path "$DSCPath\FSRM"  -Verbose
