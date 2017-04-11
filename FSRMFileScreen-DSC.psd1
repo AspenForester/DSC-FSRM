@@ -5,6 +5,7 @@
         @{
             NodeName = "*"
             # Anything all the nodes would have in common
+            # Not used if a node explicitly defines this property
             Paths = @("T:\")
         },
 

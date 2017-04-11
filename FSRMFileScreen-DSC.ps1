@@ -75,9 +75,9 @@ Configuration TestFileGroupAndTemplate
 
 $DSCPath = "\\hcgg.fr.co.hennepin.mn.us\lobroot\itxx\home\jole001\WindowsPowerShell\DSC"
 
-TestFileGroupAndTemplate -OutputPath "$DSCPath\FSRM" -ConfigurationData "$DSCPath\FSRM\itfsrpw001.psd1" -verbose
+TestFileGroupAndTemplate -OutputPath "$DSCPath\FSRM" -ConfigurationData "$DSCPath\FSRM\FSRMFileScreen-DSC.psd1" -verbose
 
 $computername = 'itinfdw002'
-Start-DscConfiguration -Force -Wait -Path "$DSCPath\FSRM"  -Verbose -ComputerName itfsrpw001
+Start-DscConfiguration -Force -Wait -Path "$DSCPath\FSRM"  -Verbose -ComputerName itinfpw022
 
 test-DscConfiguration -Force -Wait -Path "$DSCPath\FSRM"  -Verbose
