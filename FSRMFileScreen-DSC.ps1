@@ -3,6 +3,7 @@ Configuration TestFileGroupAndTemplate
     
     Import-DscResource -ModuleName FSRMDsc
 
+    # I should provide an attribution for this 
     $Filters = @((Invoke-WebRequest -Uri "https://fsrm.experiant.ca/api/v1/combined" -UseBasicParsing).content `
             | convertfrom-json `
             | ForEach-Object {$_.filters}) 
@@ -22,7 +23,7 @@ Configuration TestFileGroupAndTemplate
             Name = 'Hennepin Exceptions'
             Description = 'Files and extensions that we agree should not trigger an alert'
             Ensure = 'Present'
-            IncludePattern = '*.key','readme.txt'
+            IncludePattern = '*.key', 'readme.txt'
         }
 
         FSRMFileScreenTemplate FileScreenRansomware
@@ -55,7 +56,7 @@ Configuration TestFileGroupAndTemplate
                 Ensure = 'Present'
                 Template = "Block Ransomware Files"
                 MatchesTemplate = $true
-                DependsOn = "[FSRMFileScreenTemplate]FileScreenRansomware","[FSRMFileScreenTemplateAction]FileScreenRansomwareEvent"
+                DependsOn = "[FSRMFileScreenTemplate]FileScreenRansomware", "[FSRMFileScreenTemplateAction]FileScreenRansomwareEvent"
             }
 
             # add an exception item here
@@ -69,7 +70,6 @@ Configuration TestFileGroupAndTemplate
                 DependsOn = '[FSRMFileGroup]FSRMFileGroupExceptions'
             }
         }
-        
     }
 }
 
@@ -77,7 +77,5 @@ $DSCPath = "\\hcgg.fr.co.hennepin.mn.us\lobroot\itxx\home\jole001\WindowsPowerSh
 
 TestFileGroupAndTemplate -OutputPath "$DSCPath\FSRM" -ConfigurationData "$DSCPath\FSRM\FSRMFileScreen-DSC.psd1" -verbose
 
-$computername = 'itinfdw002'
-Start-DscConfiguration -Force -Wait -Path "$DSCPath\FSRM"  -Verbose -ComputerName itinfpw022
 
-test-DscConfiguration -Force -Wait -Path "$DSCPath\FSRM"  -Verbose
+Start-DscConfiguration -Force -Wait -Path "$DSCPath\FSRM"  -Verbose -ComputerName itinfpw022
