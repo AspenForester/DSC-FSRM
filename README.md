@@ -6,6 +6,8 @@ A DSC Configuration to set up FSRM to protect shareed directories from potential
 # Acknowledgements
 Inspired by [Tim Buntrock's contribution to the Script Gallery](https://gallery.technet.microsoft.com/scriptcenter/Protect-your-File-Server-f3722fce) and the further contributions of the commentors.
 
+Visit https://fsrm.experiant.ca/ for more details
+
 # Notes
 This configuration creates an event log entry, and in my production environment we have SCOM generate an alert on the event log entry.
 
