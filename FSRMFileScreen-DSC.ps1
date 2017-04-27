@@ -46,8 +46,7 @@ Configuration TestFileGroupAndTemplate
             DependsOn = '[FSRMFileScreenTemplate]FileScreenRansomware'
         }
         
-        foreach ($path in $Node.paths)
-        {
+        foreach ($path in $Node.paths) {
             $Name = "FSRMFileScreen_$($path.split('\')[1,2] -join(''))"
             FSRMFileScreen $Name
             {
