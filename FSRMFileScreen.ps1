@@ -1,21 +1,27 @@
-Configuration TestFileGroupAndTemplate
+Configuration FileGroupAndTemplate
 {
-    
     Import-DscResource -ModuleName FSRMDsc
 
     $Filters = @((Invoke-WebRequest -Uri "https://fsrm.experiant.ca/api/v1/combined" -UseBasicParsing).content `
             | convertfrom-json `
-            | ForEach-Object {$_.filters}) 
+            | ForEach-Object {$_.filters})
     Write-Verbose ("{0} items filtered by Experiant.ca" -f $Filters.Count)
 
     Node $AllNodes.NodeName
     {
+        WindowsFeature FSRM
+        {
+            Ensure = "Present"
+            Name = "FS-Resource-Manager"
+        }
+        
         FSRMFileGroup FSRMFileGroupRansomwareFiles
         {
             Name = 'Experiant Ransomware Files'
             Description = 'files and extenstions associated with Ransomware attacks'
             Ensure = 'Present'
             IncludePattern = $Filters
+            DependsOn = "[WindowsFeature]FSRM"
         } 
 
         FSRMFileGroup FSRMFileGroupExceptions
@@ -74,9 +80,10 @@ Configuration TestFileGroupAndTemplate
     }
 }
 
-$DSCPath = "\\<YourServer>\<YourShare>\WindowsPowerShell\DSC"
+#$DSCPath = "\\<YourServer>\<YourShare>\WindowsPowerShell\DSC"
+$DSCPath = "H:\WindowsPowerShell\DSC"
 
-TestFileGroupAndTemplate -OutputPath "$DSCPath\FSRM" `
+FileGroupAndTemplate -OutputPath "$DSCPath\FSRM" `
                          -ConfigurationData "$DSCPath\FSRM\FSRMFileScreen-DSC.psd1" `
                          -verbose
 
