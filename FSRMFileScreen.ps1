@@ -80,8 +80,8 @@ Configuration FileGroupAndTemplate
     }
 }
 
-#$DSCPath = "\\<YourServer>\<YourShare>\WindowsPowerShell\DSC"
-$DSCPath = "H:\WindowsPowerShell\DSC"
+$DSCPath = "\\<YourServer>\<YourShare>\WindowsPowerShell\DSC"
+
 
 FileGroupAndTemplate -OutputPath "$DSCPath\FSRM" `
                          -ConfigurationData "$DSCPath\FSRM\FSRMFileScreen-DSC.psd1" `
