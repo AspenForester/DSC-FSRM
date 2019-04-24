@@ -80,13 +80,14 @@ Configuration FileGroupAndTemplate
     }
 }
 
-$DSCPath = "\\<YourServer>\<YourShare>\WindowsPowerShell\DSC"
+$DSCPath = "C:\Users\jole001\OneDrive - Hennepin County\WindowsPowerShell\DSC"
 
 
 FileGroupAndTemplate -OutputPath "$DSCPath\FSRM" `
                          -ConfigurationData "$DSCPath\FSRM\FSRMFileScreen-DSC.psd1" `
                          -verbose
 
+$Creds = Get-Credential -Credential hc_Acct\lajole001
 #$computername = 'itinfdw002'
-Start-DscConfiguration -Force -Wait -Path "$DSCPath\FSRM"  -Verbose 
+Start-DscConfiguration -Force -Wait -Path "$DSCPath\FSRM"  -Verbose -Credential $Creds
 #test-DscConfiguration -Force -Wait -Path "$DSCPath\FSRM"  -Verbose
